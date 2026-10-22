@@ -14,6 +14,9 @@
 #include <QtDataVisualization/q3dtheme.h>
 #include <QtDataVisualization/q3dinputhandler.h>
 #include <QtDataVisualization/qcustom3ditem.h>
+
+#include <QtGui/qquaternion.h>
+
 #include <QtCore/QRandomGenerator>
 #include <QtCore/QElapsedTimer>
 #include <QtCore/qmath.h>
@@ -315,7 +318,7 @@ void GraphModifier::releaseAxes()
 
 void GraphModifier::releaseSeries()
 {
-    foreach (QBar3DSeries *series, m_graph->seriesList())
+    for (auto series: m_graph->seriesList())
         m_graph->removeSeries(series);
 }
 
@@ -696,7 +699,7 @@ void GraphModifier::handleSelectionChange(const QPoint &position)
 {
     m_selectedBar = position;
     int index = 0;
-    foreach (QBar3DSeries *series, m_graph->seriesList()) {
+    for (auto series: m_graph->seriesList()) {
         if (series == sender()) {
             if (series->selectedBar() != QBar3DSeries::invalidSelectionPosition())
                 m_selectedSeries = series;

@@ -1,35 +1,36 @@
 Source: qt6-datavis3d
 Section: libs
-Priority: optional
 Maintainer: Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
-Uploaders: Patrick Franz <deltaone@debian.org>, Lu YaNing <dluyaning@gmail.com>,
-Build-Depends: cmake (>= 3.24~),
-               debhelper-compat (= 13),
+Uploaders: Patrick Franz <deltaone@debian.org>,
+Build-Depends: debhelper-compat (= 13),
+               dh-sequence-pkgkde-symbolshelper,
+               dh-sequence-qmldeps,
+               cmake (>= 3.24~),
                libgl-dev,
                libssl-dev,
                libvulkan-dev [linux-any],
                ninja-build,
-               pkg-config,
                pkg-kde-tools,
-               qt6-base-dev (>= 6.8.0+dfsg~),
-               qt6-base-private-dev (>= 6.8.0+dfsg~),
-               qt6-declarative-dev (>= 6.8.0+dfsg~),
-               qt6-declarative-private-dev (>= 6.8.0+dfsg~),
+               pkgconf,
+               qt6-base-dev (>= 6.11.2+dfsg~),
+               qt6-base-private-dev (>= 6.11.2+dfsg~),
+               qt6-declarative-dev (>= 6.11.2+dfsg~),
+               qt6-declarative-private-dev (>= 6.11.2+dfsg~),
                xauth <!nocheck>,
                xvfb <!nocheck>,
-Build-Depends-Indep: qt6-base-dev (>= 6.8~) <!nodoc>,
-                     qt6-documentation-tools (>= 6.8~) <!nodoc>,
-Standards-Version: 4.6.2
+Build-Depends-Indep: qt6-base-dev (>= 6.11~) <!nodoc>,
+                     qt6-documentation-tools (>= 6.11~) <!nodoc>,
+Standards-Version: 4.7.4
 Homepage: https://www.qt.io/developers/
 Vcs-Browser: https://salsa.debian.org/qt-kde-team/qt6/qt6-datavis3d
 Vcs-Git: https://salsa.debian.org/qt-kde-team/qt6/qt6-datavis3d.git
-Rules-Requires-Root: no
 
 Package: libqt6datavisualization6
 Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends},
-Depends: ${misc:Depends}, ${shlibs:Depends},
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
 Description: Qt 6 Data Visualization library
  Qt is a cross-platform C++ application framework. Qt's primary feature
  is its rich set of widgets that provide standard GUI functionality.
@@ -41,9 +42,11 @@ Package: qml6-module-qtdatavisualization
 Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends},
-Depends: qml6-module-qtquick, ${misc:Depends}, ${shlibs:Depends},
-Breaks: libqt6datavisualizationqml6,
-Replaces: libqt6datavisualizationqml6,
+Depends: ${misc:Depends},
+         ${qml6:Depends},
+         ${shlibs:Depends},
+Breaks: libqt6datavisualizationqml6
+Replaces: libqt6datavisualizationqml6
 Description: Qt 6 Data Visualization QML module
  Qt is a cross-platform C++ application framework. Qt's primary feature
  is its rich set of widgets that provide standard GUI functionality.
@@ -51,16 +54,13 @@ Description: Qt 6 Data Visualization QML module
  This package contains the Data Visualization QML module for QtDeclarative.
 
 Package: qt6-datavis3d-dev
-Provides: libqt6datavisualization6-dev (= ${binary:Version}),
-          qt6-datavisualization-dev (= ${binary:Version}),
 Architecture: any
 Multi-Arch: same
 Section: libdevel
-Breaks: libqt6datavisualization6-dev (<< 6.3.1-3~),
-        qt6-datavisualization-dev (<< 6.8.0-1~),
-Replaces: libqt6datavisualization6-dev (<< 6.3.1-3~),
-          qt6-datavisualization-dev (<< 6.8.0-1~),
+Breaks: qt6-datavisualization-dev (<< 6.6.1-1~)
+Replaces: qt6-datavisualization-dev (<< 6.6.1-1~)
 Depends: libqt6datavisualization6 (= ${binary:Version}),
+         qml6-module-qtdatavisualization (= ${binary:Version}),
          qt6-base-dev,
          ${misc:Depends},
 Description: Qt 6 Data Visualization - development files
@@ -71,9 +71,11 @@ Description: Qt 6 Data Visualization - development files
  using the Qt Data Visualization library.
 
 Package: qt6-datavis3d-doc
+Build-Profiles: <!nodoc>
 Architecture: all
 Section: doc
-Depends: qt6-base-doc, ${misc:Depends},
+Depends: qt6-base-doc,
+         ${misc:Depends},
 Multi-Arch: foreign
 Description: Qt 6 data visualization 3D documentation
  Qt is a cross-platform C++ application framework. Qt's primary feature
@@ -82,9 +84,11 @@ Description: Qt 6 data visualization 3D documentation
  This package contains the documentation for the Qt 6 data visualization 3D.
 
 Package: qt6-datavis3d-doc-html
+Build-Profiles: <!nodoc>
 Architecture: all
 Section: doc
-Depends: qt6-base-doc-html, ${misc:Depends},
+Depends: qt6-base-doc-html,
+         ${misc:Depends},
 Multi-Arch: foreign
 Description: Qt 6 data visualization 3D HTML documentation
  Qt is a cross-platform C++ application framework. Qt's primary feature
@@ -97,7 +101,8 @@ Package: qt6-datavis3d-examples
 Architecture: any
 Multi-Arch: same
 Section: misc
-Depends: ${misc:Depends}, ${shlibs:Depends},
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
 Description: Qt 6 data visualization 3D examples
  Qt is a cross-platform C++ application framework. Qt's primary feature
  is its rich set of widgets that provide standard GUI functionality.

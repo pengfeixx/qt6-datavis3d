@@ -12,7 +12,7 @@
 #include <qpa/qplatformnativeinterface.h>
 #endif
 
-#if !defined(Q_OS_MAC) && !defined(Q_OS_ANDROID) && !defined(Q_OS_WINRT)
+#if !defined(Q_OS_APPLE) && !defined(Q_OS_ANDROID) && !defined(Q_OS_WINRT)
 #define USE_SHARED_CONTEXT
 #else
 #include "glstatestore_p.h"
@@ -433,8 +433,9 @@ void AbstractDeclarative::handleWindowChanged(QQuickWindow *window)
     // Enable touch events for Mac touchpads
     window->setVisible(true);
     typedef void * (*EnableTouch)(QWindow*, bool);
-    EnableTouch enableTouch =
-            (EnableTouch)QGuiApplication::platformNativeInterface()->nativeResourceFunctionForIntegration("registertouchwindow");
+    EnableTouch enableTouch = reinterpret_cast<EnableTouch>(
+            QFunctionPointer(QGuiApplication::platformNativeInterface()
+                                     ->nativeResourceFunctionForIntegration("registertouchwindow")));
     if (enableTouch)
         enableTouch(window, true);
     window->setVisible(previousVisibility);

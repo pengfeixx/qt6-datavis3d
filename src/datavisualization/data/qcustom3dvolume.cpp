@@ -1,8 +1,11 @@
 // Copyright (C) 2017 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
+// Qt-Security score:critical reason:execute-external-code
 
 #include "qcustom3dvolume_p.h"
 #include "utils_p.h"
+
+#include <QtGui/qquaternion.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -1279,6 +1282,7 @@ QImage QCustom3DVolumePrivate::renderSlice(Qt::Axis axis, int index)
             data[i] = static_cast<uchar>(multipliedAlphaValue(data.at(i)));
     }
 
+    return [&] {
     QImage image(data.constData(), x, y, x * pixelWidth, m_textureFormat);
     image.bits(); // Call bits() to detach the new image from local data
     if (m_textureFormat == QImage::Format_Indexed8) {
@@ -1295,6 +1299,7 @@ QImage QCustom3DVolumePrivate::renderSlice(Qt::Axis axis, int index)
     }
 
     return image;
+    }();
 }
 
 int QCustom3DVolumePrivate::multipliedAlphaValue(int alpha)

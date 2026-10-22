@@ -1,8 +1,8 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef Q3DCAMERA_H
-#define Q3DCAMERA_H
+#ifndef QTDATAVIS3D_Q3DCAMERA_H
+#define QTDATAVIS3D_Q3DCAMERA_H
 
 #include <QtDataVisualization/q3dobject.h>
 
@@ -13,7 +13,6 @@ class Q3DCameraPrivate;
 class Q_DATAVISUALIZATION_EXPORT Q3DCamera : public Q3DObject
 {
     Q_OBJECT
-    Q_ENUMS(CameraPreset)
     Q_PROPERTY(float xRotation READ xRotation WRITE setXRotation NOTIFY xRotationChanged)
     Q_PROPERTY(float yRotation READ yRotation WRITE setYRotation NOTIFY yRotationChanged)
     Q_PROPERTY(float zoomLevel READ zoomLevel WRITE setZoomLevel NOTIFY zoomLevelChanged)
@@ -52,6 +51,7 @@ public:
         CameraPresetBehindBelow,
         CameraPresetDirectlyBelow
     };
+    Q_ENUM(CameraPreset)
 
     explicit Q3DCamera(QObject *parent = nullptr);
     virtual ~Q3DCamera();

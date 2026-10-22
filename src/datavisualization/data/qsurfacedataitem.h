@@ -1,8 +1,8 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef QSURFACEDATAITEM_H
-#define QSURFACEDATAITEM_H
+#ifndef QTDATAVIS3D_QSURFACEDATAITEM_H
+#define QTDATAVIS3D_QSURFACEDATAITEM_H
 
 #include <QtDataVisualization/qdatavisualizationglobal.h>
 #include <QtGui/QVector3D>
@@ -33,7 +33,7 @@ public:
 protected:
     void createExtraData();
 
-    QSurfaceDataItemPrivate *d_ptr;
+    QSurfaceDataItemPrivate *d_ptr {};// private data doesn't exist by default (optimization)
 
 private:
     QVector3D m_position;

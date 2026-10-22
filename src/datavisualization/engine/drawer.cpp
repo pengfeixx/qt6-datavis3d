@@ -10,19 +10,17 @@
 #include "scatterpointbufferhelper_p.h"
 
 #include <QtGui/QMatrix4x4>
+#include <QtGui/qquaternion.h>
+
 #include <QtCore/qmath.h>
 
-// Resources need to be explicitly initialized when building as static library
-class StaticLibInitializer
+static void initResources()
 {
-public:
-    StaticLibInitializer()
-    {
-        Q_INIT_RESOURCE(datavisualizationshaders);
-        Q_INIT_RESOURCE(datavisualizationmeshes);
-    }
-};
-StaticLibInitializer staticLibInitializer;
+    Q_INIT_RESOURCE(datavisualizationshaders);
+    Q_INIT_RESOURCE(datavisualizationmeshes);
+}
+
+Q_CONSTRUCTOR_FUNCTION(initResources)
 
 QT_BEGIN_NAMESPACE
 

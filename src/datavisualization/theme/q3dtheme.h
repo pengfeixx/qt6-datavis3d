@@ -1,8 +1,8 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef Q3DTHEME_H
-#define Q3DTHEME_H
+#ifndef QTDATAVIS3D_Q3DTHEME_H
+#define QTDATAVIS3D_Q3DTHEME_H
 
 #include <QtDataVisualization/qdatavisualizationglobal.h>
 #include <QtCore/QObject>
@@ -17,8 +17,6 @@ class Q3DThemePrivate;
 class Q_DATAVISUALIZATION_EXPORT Q3DTheme : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(ColorStyle)
-    Q_ENUMS(Theme)
     Q_PROPERTY(Theme type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QList<QColor> baseColors READ baseColors WRITE setBaseColors NOTIFY baseColorsChanged)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
@@ -48,6 +46,7 @@ public:
         ColorStyleObjectGradient,
         ColorStyleRangeGradient
     };
+    Q_ENUM(ColorStyle)
 
     enum Theme {
         ThemeQt = 0,
@@ -60,6 +59,7 @@ public:
         ThemeIsabelle,
         ThemeUserDefined
     };
+    Q_ENUM(Theme)
 
 public:
     explicit Q3DTheme(QObject *parent = nullptr);

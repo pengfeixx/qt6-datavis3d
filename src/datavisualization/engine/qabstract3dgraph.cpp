@@ -173,11 +173,18 @@ QAbstract3DGraph::QAbstract3DGraph(QAbstract3DGraphPrivate *d, const QSurfaceFor
 
     d_ptr->m_context->setFormat(requestedFormat());
     d_ptr->m_context->create();
-    bool makeSuccess = d_ptr->m_context->makeCurrent(this);
+
+    QOffscreenSurface tempSurface;
+    tempSurface.setFormat(d_ptr->m_context->format());
+    tempSurface.create();
+
+    bool makeSuccess = d_ptr->m_context->makeCurrent(&tempSurface);
 
     // If we fail to get context, just abort
-    if (!makeSuccess || !QOpenGLContext::currentContext())
+    if (!makeSuccess || !QOpenGLContext::currentContext()) {
+        tempSurface.destroy();
         return;
+    }
 
     initializeOpenGLFunctions();
 
@@ -197,14 +204,16 @@ QAbstract3DGraph::QAbstract3DGraph(QAbstract3DGraphPrivate *d, const QSurfaceFor
     }
 
     d_ptr->m_initialized = true;
+    d_ptr->m_context->makeCurrent(this);
 
     d_ptr->renderLater();
 
 #if defined(Q_OS_MACOS)
     // Enable touch events for Mac touchpads
     typedef void * (*EnableTouch)(QWindow*, bool);
-    EnableTouch enableTouch =
-            (EnableTouch)QGuiApplication::platformNativeInterface()->nativeResourceFunctionForIntegration("registertouchwindow");
+    EnableTouch enableTouch = reinterpret_cast<EnableTouch>(
+            QFunctionPointer(QGuiApplication::platformNativeInterface()
+                                     ->nativeResourceFunctionForIntegration("registertouchwindow")));
     if (enableTouch)
         enableTouch(this, true);
 #endif
@@ -1040,8 +1049,10 @@ QAbstract3DGraphPrivate::~QAbstract3DGraphPrivate()
         m_offscreenSurface->destroy();
         delete m_offscreenSurface;
     }
-    if (m_context)
-        m_context->makeCurrent(q_ptr);
+    if (m_context) {
+        if (!m_context->makeCurrent(q_ptr))
+            m_context->doneCurrent();
+    }
 
     delete m_visualController;
 }
@@ -1049,6 +1060,8 @@ QAbstract3DGraphPrivate::~QAbstract3DGraphPrivate()
 void QAbstract3DGraphPrivate::setVisualController(Abstract3DController *controller)
 {
     m_visualController = controller;
+
+    q_ptr->setLocale(QLocale());
 
     QObject::connect(m_visualController, &Abstract3DController::activeInputHandlerChanged, q_ptr,
                      &QAbstract3DGraph::activeInputHandlerChanged);

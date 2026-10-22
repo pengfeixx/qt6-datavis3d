@@ -1,8 +1,8 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef QITEMMODELSURFACEDATAPROXY_H
-#define QITEMMODELSURFACEDATAPROXY_H
+#ifndef QTDATAVIS3D_QITEMMODELSURFACEDATAPROXY_H
+#define QTDATAVIS3D_QITEMMODELSURFACEDATAPROXY_H
 
 #include <QtDataVisualization/qsurfacedataproxy.h>
 #include <QtCore/QAbstractItemModel>
@@ -16,7 +16,6 @@ class QItemModelSurfaceDataProxyPrivate;
 class Q_DATAVISUALIZATION_EXPORT QItemModelSurfaceDataProxy : public QSurfaceDataProxy
 {
     Q_OBJECT
-    Q_ENUMS(MultiMatchBehavior)
     Q_PROPERTY(QAbstractItemModel* itemModel READ itemModel WRITE setItemModel NOTIFY itemModelChanged)
     Q_PROPERTY(QString rowRole READ rowRole WRITE setRowRole NOTIFY rowRoleChanged)
     Q_PROPERTY(QString columnRole READ columnRole WRITE setColumnRole NOTIFY columnRoleChanged)
@@ -47,6 +46,7 @@ public:
         MMBAverage = 2,
         MMBCumulativeY = 3
     };
+    Q_ENUM(MultiMatchBehavior)
 
     explicit QItemModelSurfaceDataProxy(QObject *parent = nullptr);
     explicit QItemModelSurfaceDataProxy(QAbstractItemModel *itemModel, QObject *parent = nullptr);

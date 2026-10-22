@@ -12,6 +12,8 @@
 #include "scatterobjectbufferhelper_p.h"
 #include "scatterpointbufferhelper_p.h"
 
+#include <QtGui/qquaternion.h>
+
 #include <QtCore/qmath.h>
 
 // You can verify that depth buffer drawing works correctly by uncommenting this.
@@ -163,7 +165,7 @@ void Scatter3DRenderer::updateData()
     calculateSceneScalingFactors();
     int totalDataSize = 0;
 
-    foreach (SeriesRenderCache *baseCache, m_renderCacheList) {
+    for (auto baseCache: m_renderCacheList) {
         ScatterSeriesRenderCache *cache = static_cast<ScatterSeriesRenderCache *>(baseCache);
         if (cache->isVisible()) {
             const QScatter3DSeries *currentSeries = cache->series();
@@ -194,7 +196,7 @@ void Scatter3DRenderer::updateData()
     }
 
     if (m_cachedOptimizationHint.testFlag(QAbstract3DGraph::OptimizationStatic)) {
-        foreach (SeriesRenderCache *baseCache, m_renderCacheList) {
+        for (auto baseCache: m_renderCacheList) {
             ScatterSeriesRenderCache *cache = static_cast<ScatterSeriesRenderCache *>(baseCache);
             if (cache->isVisible()) {
                 ScatterRenderItemArray &renderArray = cache->renderArray();
@@ -337,7 +339,7 @@ void Scatter3DRenderer::updateItems(const QList<Scatter3DController::ChangeItem>
     const bool optimizationStatic = m_cachedOptimizationHint.testFlag(
                 QAbstract3DGraph::OptimizationStatic);
 
-    foreach (Scatter3DController::ChangeItem item, items) {
+    for (auto item: items) {
         QScatter3DSeries *currentSeries = item.series;
         if (currentSeries != prevSeries) {
             cache = static_cast<ScatterSeriesRenderCache *>(m_renderCacheList.value(currentSeries));
@@ -365,7 +367,7 @@ void Scatter3DRenderer::updateItems(const QList<Scatter3DController::ChangeItem>
         }
     }
     if (optimizationStatic) {
-        foreach (SeriesRenderCache *baseCache, m_renderCacheList) {
+        for (auto baseCache: m_renderCacheList) {
             ScatterSeriesRenderCache *cache = static_cast<ScatterSeriesRenderCache *>(baseCache);
             if (cache->isVisible() && cache->updateIndices().size()) {
                 if (cache->mesh() == QAbstract3DSeries::MeshPoint) {
@@ -566,7 +568,7 @@ void Scatter3DRenderer::drawScene(const GLuint defaultFboHandle)
             depthProjectionViewMatrix = depthProjectionMatrix * depthViewMatrix;
 
             // Draw dots to depth buffer
-            foreach (SeriesRenderCache *baseCache, m_renderCacheList) {
+            for (auto baseCache: m_renderCacheList) {
                 if (baseCache->isVisible()) {
                     ScatterSeriesRenderCache *cache =
                             static_cast<ScatterSeriesRenderCache *>(baseCache);
@@ -715,7 +717,7 @@ void Scatter3DRenderer::drawScene(const GLuint defaultFboHandle)
 
         bool previousDrawingPoints = false;
         int totalIndex = 0;
-        foreach (SeriesRenderCache *baseCache, m_renderCacheList) {
+        for (auto baseCache: m_renderCacheList) {
             if (baseCache->isVisible()) {
                 ScatterSeriesRenderCache *cache =
                         static_cast<ScatterSeriesRenderCache *>(baseCache);
@@ -841,7 +843,7 @@ void Scatter3DRenderer::drawScene(const GLuint defaultFboHandle)
 
     float rangeGradientYScaler = 0.5f / m_scaleY;
 
-    foreach (SeriesRenderCache *baseCache, m_renderCacheList) {
+    for (auto baseCache: m_renderCacheList) {
         if (baseCache->isVisible()) {
             ScatterSeriesRenderCache *cache =
                     static_cast<ScatterSeriesRenderCache *>(baseCache);
@@ -2441,7 +2443,7 @@ void Scatter3DRenderer::selectionColorToSeriesAndIndex(const QVector4D &color,
                     + (int(color.y()) << 8)
                     + (int(color.z()) << 16);
             // Find the series and adjust the index accordingly
-            foreach (SeriesRenderCache *baseCache, m_renderCacheList) {
+            for (auto baseCache: m_renderCacheList) {
                 if (baseCache->isVisible()) {
                     ScatterSeriesRenderCache *cache =
                             static_cast<ScatterSeriesRenderCache *>(baseCache);

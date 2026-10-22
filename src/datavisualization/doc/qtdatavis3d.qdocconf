@@ -11,6 +11,9 @@ examplesinstallpath = datavisualization
 exampledirs += ../../../examples/datavisualization \
                snippets
 
+# Path to the root of qtdatavis3d (for automatic linking to source code)
+url.sources.rootdir     = ../../..
+
 {headerdirs,sourcedirs} += ..
 
 imagedirs  += ../images \
@@ -48,3 +51,9 @@ qhp.QtDataVis3D.subprojects.types.sortPages             = true
 navigation.landingpage = Qt Data Visualization
 navigation.cppclassespage = Qt Data Visualization C++ Classes
 navigation.qmltypespage = Qt Data Visualization QML Types
+
+# Allow zero warnings when testing documentation in CI
+warninglimit = 0
+
+# Report warnings for images without alt text
+reportmissingalttextforimages = true

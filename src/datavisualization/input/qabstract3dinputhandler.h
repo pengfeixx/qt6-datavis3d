@@ -1,8 +1,8 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef QABSTRACT3DINPUTHANDLER_H
-#define QABSTRACT3DINPUTHANDLER_H
+#ifndef QTDATAVIS3D_QABSTRACT3DINPUTHANDLER_H
+#define QTDATAVIS3D_QABSTRACT3DINPUTHANDLER_H
 
 #include <QtDataVisualization/qdatavisualizationglobal.h>
 #include <QtDataVisualization/q3dscene.h>
@@ -19,7 +19,6 @@ class QAbstract3DInputHandlerPrivate;
 class Q_DATAVISUALIZATION_EXPORT QAbstract3DInputHandler : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(InputView)
     Q_PROPERTY(InputView inputView READ inputView WRITE setInputView NOTIFY inputViewChanged)
     Q_PROPERTY(QPoint inputPosition READ inputPosition WRITE setInputPosition NOTIFY positionChanged)
     Q_PROPERTY(Q3DScene *scene READ scene WRITE setScene NOTIFY sceneChanged)
@@ -30,6 +29,7 @@ public:
         InputViewOnPrimary,
         InputViewOnSecondary
     };
+    Q_ENUM(InputView)
 
 protected:
     explicit QAbstract3DInputHandler(QObject *parent = nullptr);

@@ -1,8 +1,8 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef QSCATTERDATAITEM_H
-#define QSCATTERDATAITEM_H
+#ifndef QTDATAVIS3D_QSCATTERDATAITEM_H
+#define QTDATAVIS3D_QSCATTERDATAITEM_H
 
 #include <QtDataVisualization/qdatavisualizationglobal.h>
 #include <QtGui/QQuaternion>
@@ -36,7 +36,7 @@ public:
 protected:
     void createExtraData();
 
-    QScatterDataItemPrivate *d_ptr;
+    QScatterDataItemPrivate *d_ptr {}; // private data doesn't exist by default (optimization)
 
 private:
     QVector3D m_position;

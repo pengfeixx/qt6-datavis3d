@@ -1,8 +1,8 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef QSURFACE3DSERIES_H
-#define QSURFACE3DSERIES_H
+#ifndef QTDATAVIS3D_QSURFACE3DSERIES_H
+#define QTDATAVIS3D_QSURFACE3DSERIES_H
 
 #include <QtDataVisualization/qabstract3dseries.h>
 #include <QtDataVisualization/qsurfacedataproxy.h>
@@ -14,7 +14,6 @@ class QSurface3DSeriesPrivate;
 class Q_DATAVISUALIZATION_EXPORT QSurface3DSeries : public QAbstract3DSeries
 {
     Q_OBJECT
-    Q_FLAGS(DrawFlag DrawFlags)
     Q_PROPERTY(QSurfaceDataProxy *dataProxy READ dataProxy WRITE setDataProxy NOTIFY dataProxyChanged)
     Q_PROPERTY(QPoint selectedPoint READ selectedPoint WRITE setSelectedPoint NOTIFY selectedPointChanged)
     Q_PROPERTY(bool flatShadingEnabled READ isFlatShadingEnabled WRITE setFlatShadingEnabled NOTIFY flatShadingEnabledChanged)
@@ -32,6 +31,7 @@ public:
     };
     Q_ENUM(DrawFlag)
     Q_DECLARE_FLAGS(DrawFlags, DrawFlag)
+    Q_FLAG(DrawFlags)
 
     explicit QSurface3DSeries(QObject *parent = nullptr);
     explicit QSurface3DSeries(QSurfaceDataProxy *dataProxy, QObject *parent = nullptr);
